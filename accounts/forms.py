@@ -1,5 +1,4 @@
 from django.contrib.auth.forms import UserCreationForm
-from .constants import ACCOUNT_TYPE,GENDER_TYPE
 from django import forms
 from .models import UserLibraryAccount
 from django.contrib.auth.models import User
@@ -17,5 +16,19 @@ class UserRegistrationForm(UserCreationForm):
         user = super().save(commit = False)
         if(commit == True):
             user.save()
-            UserLibraryAccount.objects.create(user=user, account_id=user.id, birth_date=self.cleaned_data['birth_date'], address=self.cleaned_data['address'],account_no = 2230109 + user.id)
+            UserLibraryAccount.objects.create(user=user, account_id=2230109 + user.id, birth_date=self.cleaned_data['birth_date'], address=self.cleaned_data['address'])
             return user
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({
+                
+                'class' : (
+                    'appearance-none block w-full bg-gray-200 '
+                    'text-gray-700 border border-gray-200 rounded '
+                    'py-3 px-4 leading-tight focus:outline-none '
+                    'focus:bg-white focus:border-gray-500'
+                ) 
+            })
