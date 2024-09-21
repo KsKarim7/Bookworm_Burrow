@@ -6,4 +6,5 @@ urlpatterns = [
     path('', Home.as_view(),name = 'home'),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    # path('categories/', include('categories.urls')),
 ]

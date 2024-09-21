@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'category',
     'core',
     'transactions',
+    'categories'
 ]
 
 MIDDLEWARE = [
