@@ -13,6 +13,7 @@ class Post(models.Model):
         default=0,
         validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
+    image = models.ImageField(upload_to='posts/media/uploads/',blank = True, null = True)
     
     def __str__(self):
         return self.title 
