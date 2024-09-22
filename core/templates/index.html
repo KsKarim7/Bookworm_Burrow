@@ -33,30 +33,20 @@
 <nav class="bg-white shadow mb-10 rounded-3xl">
     <div class="container mx-auto text-xl px-4 py-3">
       <ul class="flex space-x-10">
-        <li>
+        {% comment %} <li>
           <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Fiction</a>
-        </li>
-        <li>
-          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Nonfiction</a>
-        </li>
-        <li>
-          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Mystery</a>
-        </li>
-        <li>
-          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Romance</a>
-        </li>
-        <li>
-          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Science Fiction & Fantasy</a>
-        </li>
-        <li>
-          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Children's & YA</a>
-        </li>
-        <li>
-          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Merchandise</a>
-        </li>
-        <li>
-          <a href="#" class="text-gray-700 hover:text-purple-700 font-medium">Subscriptions</a>
-        </li>
+        </li> {% endcomment %}
+        {% for c in category %}
+        <div class="form-check form-check-inline" >
+          <input type="checkbox " class="form-checkbox sr-only" name="category" id="{{c.id}}"  >
+          {% comment %} <label class="btn" for="{{b.id}}"><a href="{% url 'brand_wise_post' b.slug %}" class="text-decoration-none text-white fs-4 fw-semibold" >{{b.name}}</a></label> {% endcomment %}
+          <label class="" for="{{c.id}}">
+            {% comment %} <a href="{% url 'category_wise_post' c.slug %}" class="text-gray-700 hover:text-gray-900 font-medium">{{c.name}}</a> {% endcomment %}
+            <a href="" class="text-gray-700 hover:text-gray-900 font-medium">{{c.name}}</a>
+          </label>
+
+        </div>
+        {% endfor %}
       </ul>
     </div>
 </nav>
