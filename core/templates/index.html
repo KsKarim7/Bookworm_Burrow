@@ -1,5 +1,94 @@
-{% extends "base.html" %}
+{% extends 'base.html' %} 
+{% load static %} 
 
-{% block body %}
+{% block head_title %}Bookworm's Burrow{% endblock %} {% block content %}
+<div class="container mx-auto flex flex-col md:flex-row items-center my-12 md:my-24">
+
+    
+    <div class="flex flex-col w-full lg:w-1/2 justify-center items-start pt-12 pb-24 px-6 bg-white rounded-2xl bg-opacity-70 mx-3">
+        <h1 class="font-bold text-4xl my-4">Welcome to Bookworm's Burrow</h1>
+        <h2 class="leading-normal mb-4 font-semibold text-3xl">
+            Discover your next great book! 
+        </h2>
+        <p>BookPage highlights the best new books across all genres, as chosen by our editors. Every book we cover is one that we are excited to recommend to readers. A star indicates a book of exceptional quality in its genre or category.</p>
+        {% if not request.user.is_authenticated %}
+        <div class="flex justify-end w-full">
+            <a href="{% url 'register' %}" class="bg-blue-900 text-white rounded-none hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow rounded-2xl hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent">Register</a>
+        </div>
+        
+    
+        {% endif %}
+    </div>
+    <div class="w-full lg:w-1/2 lg:py-6 text-center ">
+        {% comment %} <img class ="rounded-2xl" src ="{% static './img/bank.jpg' %}"/> {% endcomment %}
+    </div>
+
+
+
+    
+
+</div>
+
+
+<nav class="bg-white shadow mb-10 rounded-3xl">
+    <div class="container mx-auto text-xl px-4 py-3">
+      <ul class="flex space-x-10">
+        <li>
+          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Fiction</a>
+        </li>
+        <li>
+          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Nonfiction</a>
+        </li>
+        <li>
+          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Mystery</a>
+        </li>
+        <li>
+          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Romance</a>
+        </li>
+        <li>
+          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Science Fiction & Fantasy</a>
+        </li>
+        <li>
+          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Children's & YA</a>
+        </li>
+        <li>
+          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Merchandise</a>
+        </li>
+        <li>
+          <a href="#" class="text-gray-700 hover:text-purple-700 font-medium">Subscriptions</a>
+        </li>
+      </ul>
+    </div>
+</nav>
+
+
+<div class="grid grid-cols-2 gap-4 ">
+    <!-- item 1 -->
+    {% for post in data %}
+        <div class=" ">
+            <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="" alt="">
+                <div class="flex flex-col justify-between p-4 leading-normal">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{post.title}}</h5>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{post.description |truncatewords:30}}</p>
+                    <p><span class="font-bold text-xl">Borrow price: </span>${{post.price}}</p>
+            
+                    <div class="flex gap-4 mt-2">
+                        <p class=' text-xl font-bold'>
+                            Genres: 
+                            {% for cat in post.category.all %}
+                            <button type="button" class="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">{{cat.name}}</button>
+                            {% endfor %}
+                        </p>
+                        
+                    </div>
+                </div>
+                <a href="" class="bg-blue-900 text-white rounded-none hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow rounded-2xl hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent">Book Details</a>
+            </a>
+        </div>
+    {% endfor %}
+ 
+  </div>
+
 
 {% endblock %}
