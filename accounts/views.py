@@ -8,6 +8,8 @@ from .forms import DepositForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View
 from .models import Deposit
+from django.contrib import messages
+
 
 class UserRegistrationView(FormView):
     template_name = 'accounts/user_registration.html'
@@ -33,23 +35,45 @@ class UserLogoutView(LogoutView):
         return reverse_lazy('home')
     
 
-# class DepositView(LoginRequiredMixin, View):
-#     template_name = 'accounts/deposit.html'
-#     form_class = DepositForm
-#     success_url = reverse_lazy('home')
+class DepositView(LoginRequiredMixin, View):
+    template_name = 'accounts/deposit.html'
+    form_class = DepositForm
+    success_url = reverse_lazy('home')
 
-#     def get(self, request):
-#         form = self.form_class()
-#         return render(request, self.template_name, {'form': form})
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
 
-#     def post(self, request):
-#         form = self.form_class(request.POST)
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            amount = form.cleaned_data['amount']
+            account = request.user.account
+            account.balance += amount
+            account.save()
+            Deposit.objects.create(account=account, amount=amount)
+            return redirect(self.success_url)
+        return render(request, self.template_name, {'form': form})
+    
+# def deposit_money(request):
+#     user_account = request.user.account  
+    
+#     if request.method == 'POST':
+#         form = DepositForm(request.POST)
 #         if form.is_valid():
 #             amount = form.cleaned_data['amount']
-#             account = request.user.account
-#             account.balance += amount
-#             account.save()
-#             Deposit.objects.create(account=account, amount=amount)
-#             return redirect(self.success_url)
-#         return render(request, self.template_name, {'form': form})
-    
+#             user_account.balance += amount
+#             user_account.save()
+#             messages.success(
+#             request,
+#             f'{"{:,.2f}".format(float(amount))}$ was deposited to your account successfully'
+#             )
+
+#             # send_transaction_email(request.user, amount, "Deposit Message", "deposit_mail.html")
+#             return redirect('home')  
+        
+
+#     else:
+#         form = DepositForm()
+
+#     return render(request, 'deposit_money.html', {'form': form})
