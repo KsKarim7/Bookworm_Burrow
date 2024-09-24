@@ -33,23 +33,17 @@
 <nav class="bg-white shadow mb-10 rounded-3xl">
     <div class="container mx-auto text-xl px-4 py-3">
       <ul class="flex space-x-10">
-        {% comment %} <li>
-          <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">Fiction</a>
-        </li> {% endcomment %}
+
         {% for c in category %}
         <div class="form-check form-check-inline" >
-          <input type="checkbox " class="form-checkbox sr-only" name="category" id="{{c.id}}"  >
-          {% comment %} <label class="btn" for="{{b.id}}"><a href="{% url 'brand_wise_post' b.slug %}" class="text-decoration-none text-white fs-4 fw-semibold" >{{b.name}}</a></label> {% endcomment %}
-          <label class="" for="{{c.id}}">
-            {% comment %} <a href="{% url 'category_wise_post' c.slug %}" class="text-gray-700 hover:text-gray-900 font-medium">{{c.name}}</a> {% endcomment %}
-            {% comment %} <a href="" class="text-gray-700 hover:text-gray-900 font-medium">{{c.name}}</a> {% endcomment %}
-            {% if c.slug %}
-            <a href="{% url 'category_wise_post' c.slug %}" class="text-gray-700 hover:text-gray-900 font-medium">{{ c.name }}</a>
-            {% else %}
-                <span class="text-gray-500 font-medium">{{ c.name }}</span> <!-- fallback if slug is missing -->
-            {% endif %}
-          </label>
-
+            <input type="checkbox " class="form-checkbox sr-only" name="category" id="{{c.id}}"  >
+            <label class="form-check-label" for="{{c.id}}">
+                {% if c.slug %}
+                <a href="{% url 'category_wise_post' c.slug %}" class="text-gray-700 hover:text-gray-900 font-medium">{{ c.name }}</a>
+                {% else %}
+                <span class="text-gray-500 font-medium">{{ c.name }}</span>
+                {% endif %} 
+            </label>        
         </div>
         {% endfor %}
       </ul>

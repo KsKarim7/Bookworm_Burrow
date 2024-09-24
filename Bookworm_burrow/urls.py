@@ -10,8 +10,9 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    path('category/', include('categories.urls')), 
-    path('category/<slug:category_slug>', views.home, name='category_wise_post'),
+    path('category/', include('categories.urls')),
+    path('category/<slug:category_slug>/', views.home, name='category_wise_post'),
+    # path('<slug:category_slug>/', views.home, name='category_wise_post'),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
