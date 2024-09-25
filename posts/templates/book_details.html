@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class=" ">
+<div class=" my-4">
     {% comment %} <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"> {% endcomment %}
     <div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl ">
 
@@ -22,7 +22,7 @@
                 
             </div>
         </div>
-        <a href="" class="bg-blue-900 text-white rounded-none hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow rounded-2xl hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent">Borrow Book</a>
+        <a href="{% url 'borrow_book' object.id %}" class="bg-blue-900 text-white rounded-none hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow rounded-2xl hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent">Borrow Book</a>
     </div>
 
     {% comment %} </a> {% endcomment %}

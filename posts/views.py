@@ -90,4 +90,4 @@ def Borrowed_Book(request, id):
 
 
 
-    return redirect(reverse("book_details", args=[book.id]))
+    return redirect(reverse("detail_post", args=[book.id]))
