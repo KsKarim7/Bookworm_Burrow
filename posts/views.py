@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.urls import reverse_lazy
 from .models import BorrowedBookModel
+from .forms import ReviewForm
 # from library.models import BookModel
 
 # Create your views here.
@@ -38,38 +39,40 @@ class DetailBookView(DetailView):
     model = models.Post
     pk_url_kwarg = 'id'
     template_name = 'book_details.html'
+
+    def post(self, request, *args, **kwargs):
+        review_form = ReviewForm(data=self.request.POST)
+        book = self.get_object()
+        if review_form.is_valid():
+            new_review = review_form.save(commit=False)
+            new_review.book = book
+            new_review.user = request.user
+          
+            
+            new_review.save()
+        return self.get(request, *args, **kwargs)
     
-    # def post(self, request, *args, **kwargs):
-    #     comment_form = forms.CommentForm(data=self.request.POST)
-    #     car = self.get_object()
-    #     if comment_form.is_valid():
-    #         new_comment = comment_form.save(commit=False)
-    #         new_comment.car = car
-    #         new_comment.save()
-    #     return self.get(request, *args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        book = self.get_object()
+        reviews = book.reviews.all()
+        review_form = ReviewForm()
+        context['reviews'] = reviews
+        context['review_form'] = review_form
+        context['book'] = book
+        return context
     
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     car = self.object #storing car model object
-    #     comments = car.comments.all()
-    #     comment_form = forms.CommentForm()
-        
-    #     context['comments'] = comments
-    #     context['comment_form'] = comment_form
-    #     return context
 
 
 def Borrowed_Book(request, id):
     book = get_object_or_404(Post, pk=id)
 
     user_balance = int(request.user.account.balance)
-    borrowing_price = int(book.borrowing_price)
+    borrowing_price = int(book.price)
 
     if user_balance >= borrowing_price:
         # # Create and save BorrowedBook instance
         BorrowedBookModel.objects.create(user=request.user, book=book)
-        
-    
         request.user.account.balance -= borrowing_price
         request.user.account.save()
 

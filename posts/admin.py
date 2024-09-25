@@ -5,4 +5,4 @@ from django.contrib import admin
 
 admin.site.register(models.Post)
 admin.site.register(models.BorrowedBookModel)
-# admin.site.register(models.Comment)
+admin.site.register(models.Review)

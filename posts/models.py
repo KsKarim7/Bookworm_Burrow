@@ -27,6 +27,16 @@ class BorrowedBookModel(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.book.title}"
+    
+
+class Review(models.Model):
+    book = models.ForeignKey(Post, on_delete = models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='user')
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add = True)
+    
+    def __str__(self):
+        return f"Review by {self.book}"
 
 
 
