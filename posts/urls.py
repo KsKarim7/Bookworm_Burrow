@@ -8,7 +8,6 @@ urlpatterns = [
     
     path("borrow/<int:id>", views.Borrowed_Book, name="borrow_book"), 
    
-    # path('return/<int:id>', views.Return_book, name='returnbook'),
+    path('return/<int:id>', views.Return_book, name='return_book'),
     
-    # path('comments/<int:pk>/', views.Comment_views.as_view(), name='comment_views'),
 ]

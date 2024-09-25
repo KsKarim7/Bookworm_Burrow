@@ -7,8 +7,9 @@ from django.contrib.auth.views import LoginView, LogoutView
 from .forms import DepositForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View
-from .models import Deposit
+from .models import Deposit,UserLibraryAccount
 from django.contrib import messages
+from posts.models import BorrowedBookModel
 
 
 class UserRegistrationView(FormView):
@@ -77,3 +78,15 @@ class DepositView(LoginRequiredMixin, View):
 #         form = DepositForm()
 
 #     return render(request, 'deposit_money.html', {'form': form})
+
+def profileView(request):
+    # data1 = User.objects.filter(user=request.user)
+    # print(data1)
+    data = BorrowedBookModel.objects.filter(user=request.user)
+    user_data = UserLibraryAccount.objects.filter(user=request.user)
+    # print(user_data)
+    # for i in user_data:
+    #     print(i.balance)
+    # print(object)
+    
+    return render(request, 'accounts/profile.html', {'data':data, 'user_data':user_data})

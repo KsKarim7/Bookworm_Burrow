@@ -91,3 +91,21 @@ def Borrowed_Book(request, id):
 
 
     return redirect(reverse("detail_post", args=[book.id]))
+
+
+def Return_book(request, id):
+    record = BorrowedBookModel.objects.get(pk=id)
+
+    
+    request.user.account.balance += int(record.book.price)
+    request.user.account.save()
+
+    
+    record.delete()
+    messages.success(
+        request,
+        f'Book has been returned successfully!'
+        )
+
+    # send_transaction_email(request.user, int(record.book.borrowing_price), "Return Book Message", "return_book_email.html")
+    return redirect('profile')

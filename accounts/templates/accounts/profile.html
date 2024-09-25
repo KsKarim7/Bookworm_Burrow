@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Profile page{% endblock title %}
+{% block content %}
+    <div class="bg-gray-100 container mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <div class="flex items-center mb-6">
+            <img src="https://via.placeholder.com/150" alt="Profile Picture" class="rounded-full h-24 w-24 object-cover mr-6">
+            <h2 class="text-2xl font-bold">{{user.username}}</h2>
+        </div>
+
+        <div class="mb-4">
+            <label for="firstName" class="block text-2xl text-gray-700 font-bold mb-2">Current Balance</label>
+        </div>
+        <h1 class="block text-3xl text-gray-700 font-semibold mb-2">${{request.user.account.balance}}</h1>
+    </div>
+    
+
+<div class="bg-orange-200 mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                    Book name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Issued Date
+                </th>
+                <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                    Price
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                        <a href="{% url 'detail_post' i.book.id %}" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
+                            Profile
+                        </a>
+                    </th>
+                    <td class="px-6 py-4">
+                        {{i.borrowed_date}}
+                    </td>
+                    <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                        {{i.book.price}}
+                    </td>
+                    <td class="px-6 py-4">
+                        <a href="{% url 'return_book' i.id %}" class="block mt-4 font-semibold lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
+                            Return Book
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %} 
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}
