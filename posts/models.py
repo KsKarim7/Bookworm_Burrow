@@ -5,7 +5,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 class Post(models.Model):
     title = models.CharField(max_length=50)
-    author = models.CharField(max_length=50,default=None)
     description = models.TextField()
     category = models.ManyToManyField(Category) 
     price = models.IntegerField()

@@ -9,8 +9,9 @@ urlpatterns = [
     # path('', Home.as_view(),name = 'home'),
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
+    path('post/',include('posts.urls')),
     path('accounts/', include('accounts.urls')),
-    path('category/', include('categories.urls')),
+    path('category/',include('categories.urls')),
     path('category/<slug:category_slug>/', views.home, name='category_wise_post'),
     # path('<slug:category_slug>/', views.home, name='category_wise_post'),
 ]
