@@ -8,7 +8,20 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 from .models import BorrowedBookModel
 from .forms import ReviewForm
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.template.loader import render_to_string
+from datetime import datetime
 # from library.models import BookModel
+
+def send_transaction_email(user, amount, subject, template):
+        message = render_to_string(template, {
+            'user' : user,
+            'amount' : amount,
+        })
+        send_email = EmailMultiAlternatives(subject, '', to=[user.email])
+        send_email.attach_alternative(message, "text/html")
+        send_email.send()
+
 
 # Create your views here.
 
@@ -96,6 +109,7 @@ def Borrow_Book(request, id):
             request,
             f'${"{:,.2f}".format(float(borrowing_price))} Borrowing price for your desired book has exceeded your balance'
             )
+  
 
 
 
