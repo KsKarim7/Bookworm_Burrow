@@ -40,6 +40,18 @@ class DetailBookView(DetailView):
     pk_url_kwarg = 'id'
     template_name = 'book_details.html'
 
+    # def get(self, request, id):
+    #     book = get_object_or_404(Post, pk=id)
+    #     review_form = ReviewForm()
+    #     borrowed_book = BorrowedBookModel.objects.filter(user=request.user, book=book).exists()
+
+    #     if borrowed_book:
+    #         return render(request, self.template_name, {'form': review_form, 'book': book})
+    #     else:
+    #         messages.error(request, 'You can only review a book if you have borrowed it.')
+    #         return redirect('detail_post', id) 
+
+
     def post(self, request, *args, **kwargs):
         review_form = ReviewForm(data=self.request.POST)
         book = self.get_object()
@@ -47,9 +59,9 @@ class DetailBookView(DetailView):
             new_review = review_form.save(commit=False)
             new_review.book = book
             new_review.user = request.user
-          
-            
             new_review.save()
+            
+            
         return self.get(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs):
@@ -64,28 +76,25 @@ class DetailBookView(DetailView):
     
 
 
-def Borrowed_Book(request, id):
+def Borrow_Book(request, id):
     book = get_object_or_404(Post, pk=id)
 
     user_balance = int(request.user.account.balance)
     borrowing_price = int(book.price)
 
     if user_balance >= borrowing_price:
-        # # Create and save BorrowedBook instance
         BorrowedBookModel.objects.create(user=request.user, book=book)
         request.user.account.balance -= borrowing_price
         request.user.account.save()
 
         messages.success(
             request,
-            f'{"{:,.2f}".format(float(borrowing_price))}$ was Borrowed Book successfully'
+            f'{book.title} has been borrowed for ${"{:,.2f}".format(float(borrowing_price))} successfully! '
             )
-
-        # send_transaction_email(request.user, borrowing_price, "Borrowed Book Message", "boored_book_email.html")
     else:
-        messages.success(
+        messages.error(
             request,
-            f'{"{:,.2f}".format(float(borrowing_price))}$ Borrowing price is big for your account balance'
+            f'${"{:,.2f}".format(float(borrowing_price))} Borrowing price for your desired book has exceeded your balance'
             )
 
 
@@ -99,13 +108,10 @@ def Return_book(request, id):
     
     request.user.account.balance += int(record.book.price)
     request.user.account.save()
-
-    
     record.delete()
     messages.success(
         request,
         f'Book has been returned successfully!'
         )
-
-    # send_transaction_email(request.user, int(record.book.borrowing_price), "Return Book Message", "return_book_email.html")
     return redirect('profile')
+

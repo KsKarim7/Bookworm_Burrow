@@ -5,7 +5,7 @@
 <div class="container mx-auto flex flex-col md:flex-row items-center my-12 md:my-24">
 
     
-    <div class="flex flex-col w-full lg:w-1/2 justify-center items-start pt-12 pb-24 px-6 bg-white rounded-2xl bg-opacity-70 mx-3">
+    <div class="flex flex-col w-full lg:w-1/2 justify-center items-start  pb-24 px-6 bg-white rounded-2xl bg-opacity-70 mx-3">
         <h1 class="font-bold text-4xl my-4">Welcome to Bookworm's Burrow</h1>
         <h2 class="leading-normal mb-4 font-semibold text-3xl">
             Discover your next great book! 
@@ -19,8 +19,8 @@
     
         {% endif %}
     </div>
-    <div class="w-full lg:w-1/2 lg:py-6 text-center ">
-        {% comment %} <img class ="rounded-2xl" src ="{% static './img/bank.jpg' %}"/> {% endcomment %}
+    <div class="w-full lg:w-1/2 lg:py-6 text-center shadow-lg ">
+        <img class ="rounded-2xl" src ="{% static './img/burrow.png' %}"/>
     </div>
 
 
@@ -52,7 +52,6 @@
 
 
 <div class="grid grid-cols-2 gap-4 ">
-    <!-- item 1 -->
     {% for post in data %}
         <div class=" ">
             <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
