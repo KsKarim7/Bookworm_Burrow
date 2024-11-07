@@ -68,6 +68,11 @@ class DetailBookView(DetailView):
     def post(self, request, *args, **kwargs):
         review_form = ReviewForm(data=self.request.POST)
         book = self.get_object()
+
+        if not request.user.is_authenticated:
+            messages.error(request, "You need to log in to submit a review.")
+            return redirect("login")  
+        
         if review_form.is_valid():
             new_review = review_form.save(commit=False)
             new_review.book = book
