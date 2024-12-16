@@ -82,6 +82,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Bookworm_burrow.wsgi.application'
+CSRF_TRUSTED_ORIGINS = ["https://bookworm-burrow.onrender.com"]
 
 
 # Database
