@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +56,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -105,13 +107,23 @@ CSRF_TRUSTED_ORIGINS = ["https://bookworm-burrow.onrender.com"]
 #     }
 # }
 
-DATABASES = {
-    'default': dj_database_url.config(
-        # Feel free to alter this value to suit your needs.
-        default='postgresql://bookworm_burrow_user:vfn94sap2vm4dnCTEAT6yIhyeeUg4XZN@dpg-csmft5jtq21c738hjdcg-a.oregon-postgres.render.com/bookworm_burrow',
-    )
-}
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         # Feel free to alter this value to suit your needs.
+#         default='postgresql://bookworm_burrow_user:vfn94sap2vm4dnCTEAT6yIhyeeUg4XZN@dpg-csmft5jtq21c738hjdcg-a.oregon-postgres.render.com/bookworm_burrow',
+#     )
+# }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.vakecptnwhykvzshwgio',
+        'PASSWORD': 'iJQTLetQtJZ.iN2',
+        'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
+        'PORT': '6543'
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
