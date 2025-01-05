@@ -6,7 +6,7 @@
 {% block content %}
 
 <form action="" style="width:50%; margin:auto" method="post">
-    <h1 class="text-center my-4">Add Post page</h1>
+    <h1 class="text-center my-4 bg-gray-300">Add Post page</h1>
     {% csrf_token %}
     {{form | crispy}}
 

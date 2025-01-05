@@ -59,6 +59,19 @@ class AddPostCreateView(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+    
+@method_decorator(login_required, name = 'dispatch')
+class EditPostView(UpdateView):
+    model = models.Post
+    form_class = forms.PostForm
+    template_name = 'add_post.html'
+    # pk_url_kwargs = 'id'
+    success_url = reverse_lazy('home')
+
+    def get_object(self, queryset=None):
+        return self.model.objects.get(id=self.kwargs['id'])
+
+
 
 
 class DetailBookView(DetailView):

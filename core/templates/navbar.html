@@ -12,6 +12,9 @@
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto px-10">
         {% if request.user.is_authenticated %}
             <div class="text-md lg:flex-grow">
+                <a href="{% url 'add_post' %}" class="block mt-4 font-semibold text-xl lg:inline-block lg:mt-0 text-blue-900 hover:text-orange-900 hover:font-black mr-4">
+                    Add Book
+                </a>
                 <a href="{% url 'deposit' %}" class="block mt-4 font-semibold text-xl lg:inline-block lg:mt-0 text-blue-900 hover:text-orange-900 hover:font-black mr-4">
                     Deposit
                 </a>
@@ -20,7 +23,7 @@
                 </a>
             </div>
             <div class="flex w-auto">
-                <div class="text-blue-900 my-auto font-black px-5">Welcome, {{ request.user.username }} (balance : {{request.user.account.balance}}) </div>
+                <div class="text-blue-900 my-auto font-black px-5">Welcome, {{ request.user.username }} (balance : ${{request.user.account.balance}}) </div>
 
                 <form  method='post' action="{% url 'logout' %}">
                     {% csrf_token %}
