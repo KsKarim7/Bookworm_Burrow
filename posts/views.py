@@ -25,31 +25,6 @@ def send_transaction_email(user, amount, subject, template):
         send_email.attach_alternative(message, "text/html")
         send_email.send()
 
-
-# Create your views here.
-
-# def add_post(request):
-#     if request.method == 'POST':
-#         post_form = forms.PostForm(request.POST) 
-#         if post_form.is_valid(): 
-#             post_form.save() 
-#             return redirect('add_post') 
-    
-#     else: 
-#         post_form = forms.PostForm()
-#     return render(request, 'add_post.html', {'form' : post_form})
-
-
-# def edit_post(request, id):
-#     post = models.Post.objects.get(pk=id) 
-#     post_form = forms.PostForm(instance=post)
-   
-#     if request.method == 'POST':
-#         post_form = forms.PostForm(request.POST, instance=post) 
-#         if post_form.is_valid():
-#             post_form.save() 
-#             return redirect('homepage') 
-
 @method_decorator(login_required, name='dispatch')
 class AddPostCreateView(CreateView):
     model = models.Post
@@ -71,7 +46,12 @@ class EditPostView(UpdateView):
     def get_object(self, queryset=None):
         return self.model.objects.get(id=self.kwargs['id'])
 
-
+@method_decorator(login_required, name='dispatch')
+class DeletePostView(DeleteView):
+    model = models.Post
+    template_name = 'delete_post.html'
+    success_url = reverse_lazy('home')
+    pk_url_kwarg = 'id'
 
 
 class DetailBookView(DetailView):
