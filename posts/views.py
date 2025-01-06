@@ -15,6 +15,10 @@ from datetime import datetime
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView,UpdateView,DeleteView,DetailView
+from django.contrib.auth.decorators import user_passes_test
+
+def is_admin(user):
+    return user.is_superuser  # Checks if the user is an admin
 
 def send_transaction_email(user, amount, subject, template):
         message = render_to_string(template, {
@@ -25,7 +29,8 @@ def send_transaction_email(user, amount, subject, template):
         send_email.attach_alternative(message, "text/html")
         send_email.send()
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
+@method_decorator(user_passes_test(is_admin), name='dispatch')
 class AddPostCreateView(CreateView):
     model = models.Post
     form_class = forms.PostForm
@@ -35,7 +40,8 @@ class AddPostCreateView(CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
     
-@method_decorator(login_required, name = 'dispatch')
+# @method_decorator(login_required, name = 'dispatch')
+@method_decorator(user_passes_test(is_admin), name='dispatch')
 class EditPostView(UpdateView):
     model = models.Post
     form_class = forms.PostForm
@@ -46,7 +52,8 @@ class EditPostView(UpdateView):
     def get_object(self, queryset=None):
         return self.model.objects.get(id=self.kwargs['id'])
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
+@method_decorator(user_passes_test(is_admin), name='dispatch')
 class DeletePostView(DeleteView):
     model = models.Post
     template_name = 'delete_post.html'
