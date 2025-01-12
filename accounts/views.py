@@ -11,6 +11,8 @@ from .models import Deposit,UserLibraryAccount
 from django.contrib import messages
 from posts.models import BorrowedBookModel
 
+# INSERT INTO userlibraryaccount (user_id, account_id, birth_date, balance, address)
+# VALUES (<user_id>, <unique_account_id>, NULL, 0.00, 'Default Address');
 
 class UserRegistrationView(FormView):
     template_name = 'accounts/user_registration.html'
@@ -23,11 +25,19 @@ class UserRegistrationView(FormView):
         login(self.request, user)
         return super().form_valid(form)
     
+# SELECT * 
+# FROM auth_user
+# WHERE username = 'provided_username_or_email'
+# LIMIT 1;
 
 class UserLoginView(LoginView):
     template_name = 'accounts/user_login.html'
     def get_success_url(self):
         return reverse_lazy('home')
+    
+    
+# DELETE FROM django_session
+# WHERE session_key = '<current_session_key>';
 
 class UserLogoutView(LogoutView):
     def get_success_url(self):
@@ -35,6 +45,15 @@ class UserLogoutView(LogoutView):
             logout(self.request)
         return reverse_lazy('home')
     
+
+# SELECT * 
+# FROM userlibraryaccount
+# WHERE user_id = <current_user_id>;
+# UPDATE userlibraryaccount
+# SET balance = balance + <deposit_amount>
+# WHERE id = <account_id>;
+# INSERT INTO deposit (account_id, amount, balance_after_deposit, timestamp)
+# VALUES (<account_id>, <deposit_amount>, <updated_balance>, NOW());
 
 class DepositView(LoginRequiredMixin, View):
     template_name = 'accounts/deposit.html'
@@ -56,37 +75,16 @@ class DepositView(LoginRequiredMixin, View):
             return redirect(self.success_url)
         return render(request, self.template_name, {'form': form})
     
-# def deposit_money(request):
-#     user_account = request.user.account  
-    
-#     if request.method == 'POST':
-#         form = DepositForm(request.POST)
-#         if form.is_valid():
-#             amount = form.cleaned_data['amount']
-#             user_account.balance += amount
-#             user_account.save()
-#             messages.success(
-#             request,
-#             f'{"{:,.2f}".format(float(amount))}$ was deposited to your account successfully'
-#             )
 
-#             # send_transaction_email(request.user, amount, "Deposit Message", "deposit_mail.html")
-#             return redirect('home')  
-        
 
-#     else:
-#         form = DepositForm()
-
-#     return render(request, 'deposit_money.html', {'form': form})
+# SELECT * 
+# FROM userlibraryaccount
+# WHERE user_id = <current_user_id>;
 
 def profileView(request):
-    # data1 = User.objects.filter(user=request.user)
-    # print(data1)
+
     data = BorrowedBookModel.objects.filter(user=request.user)
     user_data = UserLibraryAccount.objects.filter(user=request.user)
-    # print(user_data)
-    # for i in user_data:
-    #     print(i.balance)
-    # print(object)
+
     
     return render(request, 'accounts/profile.html', {'data':data, 'user_data':user_data})

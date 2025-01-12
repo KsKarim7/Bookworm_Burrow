@@ -5,6 +5,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # from .models import Post
 
 
+
+
 # Create your models here.
 class Post(models.Model):
     title = models.CharField(max_length=50)

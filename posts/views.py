@@ -29,6 +29,11 @@ def send_transaction_email(user, amount, subject, template):
         send_email.attach_alternative(message, "text/html")
         send_email.send()
 
+
+
+# INSERT INTO post (title, description, price, rating, image)
+# VALUES ('Sample Title', 'This is a sample description.', 500, 4, 'posts/media/uploads/sample.jpg');
+
 # @method_decorator(login_required, name='dispatch')
 @method_decorator(user_passes_test(is_admin), name='dispatch')
 class AddPostCreateView(CreateView):
@@ -40,6 +45,15 @@ class AddPostCreateView(CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
     
+
+# UPDATE post
+# SET 
+#     title = 'Updated Title',
+#     description = 'Updated description.',
+#     price = 600,
+#     rating = 4,
+#     image = 'posts/media/uploads/updated_image.jpg'
+# WHERE id = 1;
 # @method_decorator(login_required, name = 'dispatch')
 @method_decorator(user_passes_test(is_admin), name='dispatch')
 class EditPostView(UpdateView):
@@ -52,6 +66,9 @@ class EditPostView(UpdateView):
     def get_object(self, queryset=None):
         return self.model.objects.get(id=self.kwargs['id'])
 
+
+# DELETE FROM post
+# WHERE id = 1; 
 # @method_decorator(login_required, name='dispatch')
 @method_decorator(user_passes_test(is_admin), name='dispatch')
 class DeletePostView(DeleteView):
@@ -61,22 +78,23 @@ class DeletePostView(DeleteView):
     pk_url_kwarg = 'id'
 
 
+# SELECT *
+# FROM post
+# WHERE id = <id>;
+# SELECT *
+# FROM post
+# WHERE id = <id>;
+# SELECT *
+# FROM review
+# WHERE book_id = <id>;
+# INSERT INTO review (book_id, user_id, body, created_on)
+# VALUES (<post_id>, <user_id>, '<review_body>', NOW());
+
+
 class DetailBookView(DetailView):
     model = models.Post
     pk_url_kwarg = 'id'
     template_name = 'book_details.html'
-
-    # def get(self, request, id):
-    #     book = get_object_or_404(Post, pk=id)
-    #     review_form = ReviewForm()
-    #     borrowed_book = BorrowedBookModel.objects.filter(user=request.user, book=book).exists()
-
-    #     if borrowed_book:
-    #         return render(request, self.template_name, {'form': review_form, 'book': book})
-    #     else:
-    #         messages.error(request, 'You can only review a book if you have borrowed it.')
-    #         return redirect('detail_post', id) 
-
 
     def post(self, request, *args, **kwargs):
         review_form = ReviewForm(data=self.request.POST)
@@ -107,6 +125,19 @@ class DetailBookView(DetailView):
     
 
 
+# SELECT *
+# FROM post
+# WHERE id = <id>;
+# SELECT balance
+# FROM userlibraryaccount
+# WHERE user_id = <user_id>;
+# INSERT INTO borrowedbookmodel (user_id, book_id, borrowed_date)
+# VALUES (<user_id>, <book_id>, NOW());
+# UPDATE userlibraryaccount
+# SET balance = balance - <borrowing_price>
+# WHERE user_id = <user_id>;
+
+
 def Borrow_Book(request, id):
     book = get_object_or_404(Post, pk=id)
 
@@ -133,6 +164,16 @@ def Borrow_Book(request, id):
 
     return redirect(reverse("detail_post", args=[book.id]))
 
+
+
+# SELECT *
+# FROM borrowedbookmodel
+# WHERE id = <id>;
+# UPDATE userlibraryaccount
+# SET balance = balance + <book_price>
+# WHERE user_id = <user_id>;
+# DELETE FROM borrowedbookmodel
+# WHERE id = <id>;
 
 def Return_book(request, id):
     record = BorrowedBookModel.objects.get(pk=id)

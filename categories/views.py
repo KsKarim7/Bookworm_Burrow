@@ -2,6 +2,10 @@
 # from . import forms
 # # Create your views here.
 
+
+# INSERT INTO category (name, slug)
+# VALUES ('Category Name', 'category-name');
+
 # def add_category(request):
 #     if request.method == 'POST':
 #         category_form = forms.CategoryForm(request.POST) 

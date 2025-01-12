@@ -15,7 +15,7 @@ class UserLibraryAccount(models.Model):
 
     def __str__(self):
         return f"{self.user} ({self.account_id})"
-    
+
 
 class Deposit(models.Model):
     account = models.ForeignKey(UserLibraryAccount, on_delete=models.CASCADE)
